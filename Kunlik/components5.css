@@ -1,0 +1,65 @@
+/* ============================================================
+   COMPONENTS — part 5: B2B ROI calculator
+   ============================================================ */
+.calc { background: var(--paper); }
+.calc .bn-head { margin-bottom: 40px; }
+.calc .bn-head .sec-title { margin-top: 14px; }
+.calc-card { display: grid; grid-template-columns: 1fr 1.05fr; gap: 0; background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--sh-lg); }
+
+/* ---- inputs ---- */
+.calc-in { padding: 40px; }
+.calc-h { font-size: 22px; letter-spacing: -.01em; margin-bottom: 28px; }
+.cfield { margin-bottom: 30px; }
+.cfield:last-child { margin-bottom: 0; }
+.cfield > label { display: block; font-size: 14px; font-weight: 700; color: var(--ink-2); margin-bottom: 12px; }
+.cnum { display: flex; align-items: baseline; gap: 10px; border-bottom: 2px solid var(--line-2); padding-bottom: 10px; transition: border-color .2s; }
+.cnum:focus-within { border-color: var(--brand); }
+.cnum input { border: none; outline: none; background: none; font: 800 30px var(--mono); color: var(--ink);
+  letter-spacing: -.02em; width: 100%; min-width: 0; padding: 0; }
+.cunit { font-size: 15px; font-weight: 700; color: var(--ink-3); flex: none; }
+
+.crange { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: var(--r-pill);
+  margin-top: 18px; cursor: pointer; outline: none; }
+.crange::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; border: 3px solid var(--brand); box-shadow: var(--sh-md); cursor: grab; transition: transform .12s; }
+.crange::-webkit-slider-thumb:active { transform: scale(1.12); cursor: grabbing; }
+.crange::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 3px solid var(--brand);
+  box-shadow: var(--sh-md); cursor: grab; }
+.crange::-moz-range-track { height: 6px; border-radius: var(--r-pill); }
+
+/* ---- results ---- */
+.calc-out { background: var(--night); color: #fff; padding: 40px; display: flex; flex-direction: column; }
+.calc-out-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--amber); }
+.compare { margin: 22px 0 24px; display: flex; flex-direction: column; gap: 12px; }
+.cmp-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px;
+  border-radius: var(--r-md); background: var(--night-2); border: 1px solid rgba(255,255,255,.08); }
+.cmp-label { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; color: rgba(255,255,255,.7); }
+.cmp-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.cmp-dot.red { background: #FF6B57; }
+.cmp-dot.green { background: var(--green); }
+.cmp-row b { font-size: 18px; font-weight: 700; white-space: nowrap; }
+.cmp-row.staff b { color: rgba(255,255,255,.55); text-decoration: line-through; text-decoration-color: rgba(255,107,87,.5); }
+.cmp-row b em { font-style: normal; font-size: 11px; color: rgba(255,255,255,.4); font-family: var(--sans); margin-left: 4px; }
+
+.benefit { background: linear-gradient(155deg, #18A06B, #0E7C52); border-radius: var(--r-lg); padding: 24px 26px;
+  box-shadow: 0 14px 32px rgba(24,160,107,.35); }
+.ben-top { display: flex; align-items: center; justify-content: space-between; }
+.ben-top > span { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.85); text-transform: uppercase; letter-spacing: .04em; }
+.ben-pct { font-size: 16px; font-weight: 700; background: rgba(255,255,255,.18); padding: 6px 12px; border-radius: var(--r-pill); }
+.ben-rows { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; }
+.ben-row { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 7px 0; }
+.ben-row > span { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.8); }
+.ben-row b { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+.ben-row.year { border-top: 1px solid rgba(255,255,255,.22); margin-top: 6px; padding-top: 16px; }
+.ben-row.year > span { font-size: 16px; font-weight: 800; color: #fff; }
+.ben-row.year b { font-size: clamp(30px, 4vw, 44px); }
+.ben-foot { margin-top: 16px; font-size: 13.5px; color: rgba(255,255,255,.85); line-height: 1.45;
+  border-top: 1px solid rgba(255,255,255,.22); padding-top: 14px; }
+.ben-foot b { font-weight: 800; }
+.calc-cta { margin-top: 24px; align-self: flex-start; }
+
+@media (max-width: 920px) {
+  .calc-card { grid-template-columns: 1fr; }
+  .calc-in, .calc-out { padding: 30px 24px; }
+}

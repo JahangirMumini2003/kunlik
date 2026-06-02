@@ -1,0 +1,92 @@
+/* ============================================================
+   COMPONENTS — part 6: improved map (S3) + QR control (S4)
+   ============================================================ */
+
+/* ---- S3: map of shifts ---- */
+.scr-map3 { background: var(--surface); }
+.m3-top { padding: 6px 16px 12px; border-bottom: 1px solid var(--line); }
+.m3-top .app-head { font-size: 16px; }
+.m3-near { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--ink-3); background: var(--paper-2); padding: 4px 9px; border-radius: var(--r-pill); }
+.m3-search { display: flex; align-items: center; gap: 9px; margin-top: 12px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; }
+.m3-search-ic { width: 14px; height: 14px; border: 2px solid var(--ink-3); border-radius: 50%; position: relative; flex: none; }
+.m3-search-ic::after { content: ''; position: absolute; right: -4px; bottom: -3px; width: 6px; height: 2px; background: var(--ink-3); transform: rotate(45deg); border-radius: 2px; }
+.m3-search-ph { font-size: 13px; color: var(--ink-3); font-weight: 600; }
+.m3-chips { display: flex; gap: 6px; margin-top: 12px; overflow: hidden; }
+.m3-chip { font-size: 12px; font-weight: 700; color: var(--ink-2); background: var(--paper-2); padding: 7px 12px; border-radius: var(--r-pill); white-space: nowrap; }
+.m3-chip.on { background: var(--brand); color: #fff; }
+
+.m3-map { position: relative; flex: 1; min-height: 160px; overflow: hidden; background: linear-gradient(180deg, #F3EEE6, #EAE0D3); }
+.m3-road { position: absolute; background: rgba(255,255,255,.85); border-radius: 5px; }
+.m3-road.r1 { left: -10%; top: 44%; width: 130%; height: 18px; transform: rotate(-10deg); }
+.m3-road.r2 { right: 26%; top: -10%; width: 14px; height: 130%; transform: rotate(7deg); background: rgba(47,107,214,.16); }
+.m3-radius { position: absolute; left: 46%; top: 56%; width: 150px; height: 150px; transform: translate(-50%,-50%); border-radius: 50%;
+  background: radial-gradient(circle, rgba(241,90,41,.14), transparent 70%); border: 1.5px solid rgba(241,90,41,.32); }
+.m3-me { position: absolute; left: 46%; top: 56%; width: 14px; height: 14px; transform: translate(-50%,-50%); border-radius: 50%;
+  background: var(--blue); border: 3px solid #fff; box-shadow: var(--sh-sm); z-index: 3; }
+.m3-pin { position: absolute; display: inline-flex; align-items: center; gap: 5px; font: 700 11px/1 var(--mono); color: var(--ink);
+  background: #fff; padding: 5px 9px 5px 5px; border-radius: 14px 14px 14px 4px; box-shadow: var(--sh-md); z-index: 2; }
+.m3-pin.on { color: #fff; background: var(--brand); z-index: 3; }
+.m3-pin-logo { width: 18px; height: 18px; border-radius: 6px; display: grid; place-items: center; font: 800 9px var(--sans); color: #fff; flex: none; }
+.m3-pin-logo.k { background: #E8362E; } .m3-pin-logo.e { background: #D81F26; } .m3-pin-logo.m { background: #0A8F4E; }
+.m3-pin.p1 { top: 28%; left: 28%; } .m3-pin.p2 { top: 50%; left: 60%; } .m3-pin.p3 { top: 70%; left: 32%; }
+.m3-recenter { position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px; border-radius: 11px; background: #fff; box-shadow: var(--sh-md); z-index: 4; }
+.m3-recenter::after { content: ''; position: absolute; inset: 0; margin: auto; width: 13px; height: 13px; border: 2px solid var(--brand); border-radius: 50%; }
+.m3-recenter::before { content: ''; position: absolute; inset: 0; margin: auto; width: 3px; height: 3px; border-radius: 50%; background: var(--brand); }
+
+.m3-sheet { background: #fff; border-radius: 18px 18px 0 0; padding: 9px 16px 16px; margin-top: -16px; position: relative; z-index: 5; box-shadow: 0 -8px 20px rgba(27,21,16,.07); }
+.m3-grip { display: block; width: 38px; height: 4px; border-radius: 4px; background: var(--line-2); margin: 0 auto 12px; }
+.m3-sheet-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 11px; }
+.m3-sheet-head b { font-size: 14px; } .m3-sheet-head span { font-size: 12px; color: var(--ink-3); }
+.m3-card { display: flex; align-items: center; gap: 11px; border: 1.5px solid var(--brand); background: var(--brand-tint); border-radius: 14px; padding: 11px 12px; }
+.m3-card .mc-logo { width: 40px; height: 40px; font-size: 18px; }
+.m3-card .mc-body { flex: 1; min-width: 0; }
+.m3-card .mc-body b { font-size: 13px; display: block; } .m3-card .mc-body span { font-size: 11.5px; color: var(--ink-2); }
+.m3-card-r { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.m3-pay { font-size: 13px; font-weight: 700; color: var(--brand); white-space: nowrap; }
+.m3-pay i { font-style: normal; font-size: 9px; color: var(--ink-3); }
+.m3-card .btn.sm { padding: 7px 14px; font-size: 12px; }
+
+/* ---- S4: QR control / shift close ---- */
+.qc-summary { display: flex; align-items: center; gap: 11px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.qc-summary .mc-logo { width: 40px; height: 40px; font-size: 18px; }
+.qc-sum-body { flex: 1; min-width: 0; }
+.qc-sum-body b { display: block; font-size: 14px; } .qc-sum-body span { font-size: 12px; color: var(--ink-2); }
+.status-chip.sm { padding: 6px 10px; font-size: 11px; }
+.qc-prog { margin-top: 4px; }
+.qc-prog-top { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--ink-2); margin-bottom: 8px; }
+.qc-prog-top b { color: var(--green); }
+.qc-prog-bar { height: 7px; border-radius: var(--r-pill); background: var(--paper-2); overflow: hidden; }
+.qc-prog-bar i { display: block; height: 100%; width: 100%; background: var(--green); border-radius: var(--r-pill); }
+.qc-qrwrap { margin-top: 6px; display: flex; flex-direction: column; align-items: center; gap: 9px; background: var(--paper); border-radius: 16px; padding: 14px; }
+.qc-qr-h { font-size: 13px; font-weight: 700; color: var(--ink); }
+.qc-qr-frame { position: relative; padding: 14px; background: #fff; border-radius: 14px; box-shadow: var(--sh-sm); }
+.qc-qr-frame .qr-grid { border: none; width: 108px; height: 108px; padding: 0; }
+.qc-corner { position: absolute; width: 13px; height: 13px; border: 3px solid var(--brand); }
+.qc-corner.tl { top: 5px; left: 5px; border-right: none; border-bottom: none; border-radius: 6px 0 0 0; }
+.qc-corner.tr { top: 5px; right: 5px; border-left: none; border-bottom: none; border-radius: 0 6px 0 0; }
+.qc-corner.bl { bottom: 5px; left: 5px; border-right: none; border-top: none; border-radius: 0 0 0 6px; }
+.qc-corner.br { bottom: 5px; right: 5px; border-left: none; border-top: none; border-radius: 0 0 6px 0; }
+.qc-code { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.qc-wait { display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 12.5px; font-weight: 600; color: var(--ink-2);
+  background: var(--amber-soft); border-radius: 12px; padding: 10px; margin-top: 8px; }
+.qc-pulse { width: 9px; height: 9px; border-radius: 50%; background: var(--brand); position: relative; flex: none; }
+.qc-pulse::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--brand); animation: qpulse 1.5s ease-out infinite; }
+@keyframes qpulse { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(2.6); opacity: 0; } }
+
+/* ---- Hero mini savings calculator ---- */
+.calc-mini { padding: 24px; }
+.calc-mini .hp-head { margin-bottom: 18px; }
+.cm-result { background: linear-gradient(155deg, #18A06B, #0E7C52); border-radius: var(--r-md); padding: 20px 22px; color: #fff;
+  box-shadow: 0 12px 28px rgba(24,160,107,.32); }
+.cm-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: rgba(255,255,255,.8); }
+.cm-year { font-size: clamp(28px, 4vw, 38px); font-weight: 700; letter-spacing: -.025em; margin: 6px 0 6px; line-height: 1; }
+.cm-year i { font-style: normal; font-size: 15px; color: rgba(255,255,255,.7); }
+.cm-sub { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.82); }
+.cm-controls { display: flex; flex-direction: column; gap: 20px; margin: 22px 0 18px; }
+.cm-frow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.cm-frow span { font-size: 13.5px; font-weight: 600; color: var(--ink-2); }
+.cm-frow b { font-size: 16px; font-weight: 700; color: var(--ink); }
+.cm-range { margin-top: 0; }
+.cm-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--brand);
+  border-top: 1px solid var(--line); padding-top: 16px; width: 100%; }
+.cm-link:hover { color: var(--brand-strong); }
